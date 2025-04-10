@@ -1,11 +1,9 @@
-function DisplayArea() {
-    return (
-      <div className="display-area">
-        <h2>Display Area</h2>
-        <p>The entered text will be shown here.</p>
-      </div>
-    );
-  }
-  
-  export default DisplayArea;
-  
+function DisplayArea({ text }) {
+  return (
+    <div className="area">
+      <div className="display-area">{text}</div>
+    </div>
+  );
+}
+
+export default DisplayArea;
