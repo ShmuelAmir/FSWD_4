@@ -1,18 +1,17 @@
 import { KEYBOARD_LAYOUT_ROWS } from "../consts";
+import KeyboardKey from "./KeyboardKey";
 
-function Keyboard({ handleClick, lang }) {
+function Keyboard({ lang, handleClick }) {
   return (
     <div className="keyboard">
-      {KEYBOARD_LAYOUT_ROWS.map((row, index) => (
-        <div key={index} className="keyboard-row">
-          {row.map((key, i) => (
-            <button
-              key={key[lang] + i.toString()}
-              className="key"
-              onClick={() => handleClick(key[lang])}
-            >
-              {key[lang]}
-            </button>
+      {KEYBOARD_LAYOUT_ROWS.map((row, i) => (
+        <div key={i} className="keyboard-row">
+          {row.map((key, j) => (
+            <KeyboardKey
+              key={j}
+              langKey={key[lang]}
+              handleClick={handleClick}
+            />
           ))}
         </div>
       ))}
