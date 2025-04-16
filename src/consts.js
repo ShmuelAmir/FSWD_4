@@ -1,5 +1,33 @@
 export const LANGUAGES = ["en", "he", "em"];
 
+export const FONTS = ["Arial", "Courier New", "Times New Roman"];
+export const FONT_SIZES = [
+  "12px",
+  "14px",
+  "16px",
+  "18px",
+  "20px",
+  "22px",
+  "24px",
+  "26px",
+  "28px",
+  "30px",
+  "32px",
+];
+export const FONT_COLORS = [
+  "#000000",
+  "#FF0000",
+  "#00FF00",
+  "#0000FF",
+  "#FFFF00",
+  "#FF00FF",
+  "#00FFFF",
+  "#808080",
+  "#C0C0C0",
+  "#FFA500",
+  "#800080",
+];
+
 export const KEYBOARD_LAYOUT_ROWS = [
   [
     { en: "`", he: "`", em: "😀" },

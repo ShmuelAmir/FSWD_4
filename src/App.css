@@ -12,16 +12,25 @@ button {
   cursor: pointer;
 }
 
+select {
+  font-size: 1.5rem;
+}
+
 .area {
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  padding: 2.5rem 5rem;
+  padding: 2.5rem 3vw;
   display: flex;
+  gap: 2rem;
   justify-content: space-between;
 
   &:first-child {
     flex-grow: 1;
+  }
+
+  @media screen and (max-width: 1300px) {
+    flex-direction: column;
   }
 }
 
@@ -38,15 +47,15 @@ button {
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75em;
 }
 
 .key {
   background: #e0e0e0;
   border-radius: 2rem;
-  padding: 1rem 2rem;
+  padding: 0.75em 1.5em;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.25vw;
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -57,13 +66,22 @@ button {
 
 .button-group {
   display: flex;
-  flex-direction: column;
 
   & > button {
     font-size: 1rem;
     padding: 0.5rem 1rem;
     background: lightsalmon;
     text-transform: uppercase;
+
+    &:first-child {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
 
     &:hover {
       background-color: #ff7f50;
@@ -74,5 +92,31 @@ button {
       background-color: #ff7f50;
       color: white;
     }
+  }
+}
+
+.special-keys {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  max-width: 10%;
+}
+
+.color-group {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+.color-button {
+  border-radius: 50%;
+  aspect-ratio: 1;
+  padding: 0.75em 1.5em;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
   }
 }

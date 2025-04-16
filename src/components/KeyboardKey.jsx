@@ -3,7 +3,7 @@ function KeyboardKey({ langKey, handleClick }) {
     <button
       className="key"
       onClick={() => handleClick(langKey)}
-      style={langKey === "Space" ? { width: "40rem" } : {}}
+      style={langKey === "Space" ? { paddingInline: "15em" } : {}}
     >
       {langKey}
     </button>
