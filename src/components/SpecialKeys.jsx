@@ -1,6 +1,10 @@
 import { LANGUAGES, FONTS, FONT_COLORS, FONT_SIZES } from "../consts";
 
-function SpecialKeys({ lang, setLang }) {
+import deleteLast from "../assets/delete-last.svg";
+import deleteWord from "../assets/delete-word.svg";
+import deleteAll from "../assets/delete-all.svg";
+
+function SpecialKeys({ lang, setLang, handleSpecialKeyClick }) {
   return (
     <div className="special-keys">
       <div className="button-group">
@@ -28,13 +32,34 @@ function SpecialKeys({ lang, setLang }) {
           </option>
         ))}
       </select>
-      <div className="color-group">
+      <div className="group">
         {FONT_COLORS.map((color) => (
           <button
             key={color}
             className="color-button"
             style={{ backgroundColor: color }}
-          ></button>
+          />
+        ))}
+      </div>
+      <div className="group">
+        {["delete-last", "delete-word", "delete-all"].map((key) => (
+          <button
+            key={key}
+            className="icon"
+            onClick={() => handleSpecialKeyClick(key)}
+            title={key.replace("-", " ")}
+          >
+            <img
+              src={
+                key === "delete-last"
+                  ? deleteLast
+                  : key === "delete-word"
+                  ? deleteWord
+                  : deleteAll
+              }
+              alt={key.replace("-", " ") + " icon"}
+            />
+          </button>
         ))}
       </div>
     </div>

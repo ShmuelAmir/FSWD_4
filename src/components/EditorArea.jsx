@@ -29,9 +29,33 @@ function EditorArea({ setText }) {
     }
   };
 
+  const handleSpecialKeyClick = (key) => {
+    switch (key) {
+      case "delete-last":
+        setText((prev) => prev.slice(0, -1));
+        break;
+      case "delete-word":
+        setText((prev) => {
+          const lastSpaceIndex = Math.max(
+            prev.lastIndexOf(" "),
+            prev.lastIndexOf("\n")
+          );
+          return prev.slice(0, lastSpaceIndex);
+        });
+        break;
+      case "delete-all":
+        setText("");
+        break;
+    }
+  };
+
   return (
     <div className="area">
-      <SpecialKeys lang={lang} setLang={setLang} />
+      <SpecialKeys
+        lang={lang}
+        setLang={setLang}
+        handleSpecialKeyClick={handleSpecialKeyClick}
+      />
       <Keyboard handleClick={handleClick} lang={lang} />
     </div>
   );
