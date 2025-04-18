@@ -4,7 +4,7 @@ import Keyboard from "./Keyboard";
 import SpecialKeys from "./SpecialKeys";
 
 function EditorArea({ setText }) {
-  const [lang, setLang] = useState("he");
+  const [lang, setLang] = useState("EN");
 
   const handleClick = (key) => {
     switch (key) {

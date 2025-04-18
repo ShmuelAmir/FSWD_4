@@ -10,31 +10,33 @@ main {
 button {
   border: none;
   cursor: pointer;
+  background-color: transparent;
+}
+
+input {
+  border: none;
+  outline: none;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
 }
 
 select {
   font-size: 1.5rem;
 }
 
-img {
-  width: 100%;
-}
-
 .area {
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  padding: 2.5rem 3vw;
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+
   display: flex;
+  flex-direction: column;
   gap: 2rem;
   justify-content: space-between;
 
   &:first-child {
     flex-grow: 1;
-  }
-
-  @media screen and (max-width: 1300px) {
-    flex-direction: column;
   }
 }
 
@@ -56,8 +58,8 @@ img {
 
 .key {
   background: #e0e0e0;
-  border-radius: 2rem;
-  padding: 0.75em 1.5em;
+  border-radius: var(--radius-lg);
+  padding: 0.5em 1.5em;
   text-align: center;
   font-size: 1.25vw;
   transition: background-color 0.3s ease;
@@ -68,71 +70,56 @@ img {
   }
 }
 
-.button-group {
-  display: flex;
-
-  & > button {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    background: lightsalmon;
-    text-transform: uppercase;
-
-    &:first-child {
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-    }
-
-    &:last-child {
-      border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-
-    &:hover {
-      background-color: #ff7f50;
-      transform: scale(1.05);
-    }
-
-    &.active {
-      background-color: #ff7f50;
-      color: white;
-    }
-  }
-}
-
 .special-keys {
   display: flex;
-  flex-direction: column;
-  gap: 0.75em;
-  max-width: 10%;
+  align-items: center;
+  gap: 1.5em;
+
+  background-color: var(--violet-50);
+  border-radius: var(--radius);
+  padding: 0.35em 0.5em;
 }
 
 .group {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  align-items: center;
   gap: 0.5em;
-}
 
-.color-button {
-  border-radius: 50%;
-  aspect-ratio: 1;
-  padding: 0.75em 1.5em;
-  transition: opacity 0.3s ease;
+  & > button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-md);
+    padding: 0.15em 0.25em;
+    font-size: 1rem;
+    transition: all 0.2s ease;
 
-  &:hover {
-    opacity: 0.8;
-    transform: scale(1.05);
+    &:hover:not(.active) {
+      background-color: var(--zinc-300);
+    }
   }
 }
 
-.icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  background: white;
-  padding: 0.25rem;
+.seperator {
+  height: 85%;
+  width: 1.5px;
+  background-color: var(--violet-500);
+  border-radius: var(--radius-md);
+}
+
+.active {
+  background-color: var(--violet-300);
+}
+
+.color-button {
+  border-radius: var(--radius-full) !important;
+  aspect-ratio: 1;
+  scale: 0.8;
+  transition: all 0.3s ease;
 
   &:hover {
-    background-color: #d0d0d0;
+    opacity: 0.8;
+    scale: 0.9;
   }
 }

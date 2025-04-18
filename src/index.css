@@ -4,6 +4,37 @@
   box-sizing: border-box;
 }
 
+:root {
+  --zinc-50: #f9fafb;
+  --zinc-100: #f3f4f6;
+  --zinc-200: #e5e7eb;
+  --zinc-300: #d1d5db;
+  --zinc-400: #9ca3af;
+  --zinc-500: #6b7280;
+  --zinc-600: #4b5563;
+  --zinc-700: #374151;
+  --zinc-800: #1f2937;
+  --zinc-900: #111827;
+  --zinc-950: #0f172a;
+
+  --violet-50: #f5f3ff;
+  --violet-100: #ede9fe;
+  --violet-200: #e0e7ff;
+  --violet-300: #c7d2fe;
+  --violet-400: #a5b4fc;
+  --violet-500: #818cf8;
+  --violet-600: #6366f1;
+  --violet-700: #4f46e5;
+  --violet-800: #4338ca;
+  --violet-900: #3730a3;
+  --violet-950: #312e81;
+
+  --radius: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 50%;
+}
+
 body {
   font-family: Arial, sans-serif;
   height: 100vh;
