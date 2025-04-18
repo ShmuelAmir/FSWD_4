@@ -85,7 +85,7 @@ select {
   flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.5rem;
 
   & > button {
     width: 2.5rem;
@@ -101,6 +101,14 @@ select {
   }
 }
 
+.gap-lg {
+  gap: 1.5rem;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
 .seperator {
   height: 85%;
   width: 1.5px;
@@ -110,16 +118,4 @@ select {
 
 .active {
   background-color: var(--violet-300);
-}
-
-.color-button {
-  border-radius: var(--radius-full) !important;
-  aspect-ratio: 1;
-  scale: 0.8;
-  transition: all 0.3s ease;
-
-  &:hover {
-    opacity: 0.8;
-    scale: 0.9;
-  }
 }

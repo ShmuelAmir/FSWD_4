@@ -1,6 +1,18 @@
 export const LANGUAGES = ["EN", "HE", "EM"];
 
-export const FONTS = ["Arial", "Courier New", "Times New Roman"];
+export const FONTS = [
+  "Arial",
+  "Courier New",
+  "Times New Roman",
+  "Verdana",
+  "Georgia",
+  "Tahoma",
+  "Trebuchet MS",
+  "Impact",
+  "Comic Sans MS",
+  "Roboto",
+];
+
 export const FONT_SIZES = [
   "12px",
   "14px",
@@ -14,13 +26,14 @@ export const FONT_SIZES = [
   "30px",
   "32px",
 ];
+
 export const FONT_COLORS = [
-  "#000000",
-  "#FF0000",
-  "#0000FF",
-  "#808080",
-  "#FFA500",
-  "#800080",
+  { name: "Black", hash: "#000000" },
+  { name: "Red", hash: "#FF0000" },
+  { name: "Blue", hash: "#0000FF" },
+  { name: "Gray", hash: "#808080" },
+  { name: "Orange", hash: "#FFA500" },
+  { name: "Purple", hash: "#800080" },
 ];
 
 export const KEYBOARD_LAYOUT_ROWS = [

@@ -21,32 +21,36 @@ function SpecialKeys({ lang, setLang, handleSpecialKeyClick }) {
       </div>
       <div className="seperator" />
 
-      <div className="group">
-        <select>
+      <div className="group gap-lg grow">
+        <select
+          onChange={(e) => handleSpecialKeyClick("font-family", e.target.value)}
+        >
           {FONTS.map((font) => (
             <option key={font} value={font}>
               {font}
             </option>
           ))}
         </select>
-        <select>
+        <select
+          className="grow"
+          onChange={(e) => handleSpecialKeyClick("font-size", e.target.value)}
+        >
           {FONT_SIZES.map((size) => (
             <option key={size} value={size}>
               {size}
             </option>
           ))}
         </select>
-      </div>
-      <div className="seperator" />
-
-      <div className="group">
-        {FONT_COLORS.map((color) => (
-          <button
-            key={color}
-            className="color-button"
-            style={{ backgroundColor: color }}
-          />
-        ))}
+        <select
+          className="grow"
+          onChange={(e) => handleSpecialKeyClick("font-color", e.target.value)}
+        >
+          {FONT_COLORS.map((color) => (
+            <option key={color.name} value={color.hash}>
+              {color.name}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="seperator" />
 
@@ -66,15 +70,15 @@ function SpecialKeys({ lang, setLang, handleSpecialKeyClick }) {
             )}
           </button>
         ))}
+        <button title="undo">
+          <Undo />
+        </button>
       </div>
       <div className="seperator" />
 
-      <div className="group">
-        <button>
-          <Undo />
-        </button>
-        <input type="text" placeholder="Replace" />
+      <div className="group gap-lg">
         <input type="text" placeholder="Search..." />
+        <input type="text" placeholder="Replace" />
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { useState } from "react";
 import Keyboard from "./Keyboard";
 import SpecialKeys from "./SpecialKeys";
 
-function EditorArea({ setText }) {
+function EditorArea({ setText, setStyle }) {
   const [lang, setLang] = useState("EN");
 
   const handleClick = (key) => {
@@ -29,8 +29,9 @@ function EditorArea({ setText }) {
     }
   };
 
-  const handleSpecialKeyClick = (key) => {
+  const handleSpecialKeyClick = (key, value) => {
     switch (key) {
+      // delete
       case "delete-last":
         setText((prev) => prev.slice(0, -1));
         break;
@@ -45,6 +46,16 @@ function EditorArea({ setText }) {
         break;
       case "delete-all":
         setText("");
+        break;
+      // style
+      case "font-size":
+        setStyle({ fontSize: value });
+        break;
+      case "font-family":
+        setStyle({ fontFamily: value });
+        break;
+      case "font-color":
+        setStyle({ color: value });
         break;
     }
   };

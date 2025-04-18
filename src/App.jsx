@@ -6,11 +6,12 @@ import "./App.css";
 
 function App() {
   const [text, setText] = useState("");
+  const [style, setStyle] = useState();
 
   return (
     <main>
-      <DisplayArea text={text} />
-      <EditorArea setText={setText} />
+      <DisplayArea text={text} style={style} />
+      <EditorArea setText={setText} setStyle={setStyle} />
     </main>
   );
 }

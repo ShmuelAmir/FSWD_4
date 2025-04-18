@@ -2,7 +2,6 @@ import { KEYBOARD_LAYOUT_ROWS } from "../consts";
 import KeyboardKey from "./KeyboardKey";
 
 function Keyboard({ lang, handleClick }) {
-  console.log(KEYBOARD_LAYOUT_ROWS);
   return (
     <div className="keyboard">
       {KEYBOARD_LAYOUT_ROWS.map((row, i) => (
