@@ -1,6 +1,10 @@
+import DeleteLast from "./assets/delete-last.tsx";
+import DeleteWord from "./assets/delete-word.tsx";
+import DeleteAll from "./assets/delete-all.tsx";
+
 export const LANGUAGES = ["EN", "HE", "EM"];
 
-export const FONTS = [
+const FONTS = [
   "Arial",
   "Courier New",
   "Times New Roman",
@@ -13,7 +17,7 @@ export const FONTS = [
   "Roboto",
 ];
 
-export const FONT_SIZES = [
+const FONT_SIZES = [
   "12px",
   "14px",
   "16px",
@@ -27,13 +31,25 @@ export const FONT_SIZES = [
   "32px",
 ];
 
-export const FONT_COLORS = [
+const FONT_COLORS = [
   { name: "Black", hash: "#000000" },
   { name: "Red", hash: "#FF0000" },
   { name: "Blue", hash: "#0000FF" },
   { name: "Gray", hash: "#808080" },
   { name: "Orange", hash: "#FFA500" },
   { name: "Purple", hash: "#800080" },
+];
+
+export const FONT_ACTIONS = [
+  { key: "fontFamily", values: FONTS },
+  { key: "fontSize", values: FONT_SIZES },
+  { key: "color", values: FONT_COLORS },
+];
+
+export const DELETE_ACTIONS = [
+  { key: "delete-last", name: "Delete Last", icon: DeleteLast },
+  { key: "delete-word", name: "Delete Word", icon: DeleteWord },
+  { key: "delete-all", name: "Delete All", icon: DeleteAll },
 ];
 
 export const KEYBOARD_LAYOUT_ROWS = [
@@ -51,10 +67,10 @@ export const KEYBOARD_LAYOUT_ROWS = [
     { en: "0", he: "0", em: "😋" },
     { en: "-", he: "-", em: "😎" },
     { en: "=", he: "=", em: "😍" },
-    { en: "Backspace", he: "Backspace", em: "😘" },
+    { en: "Backspace", he: "Backspace", em: "Backspace" },
   ],
   [
-    { en: "Tab", he: "Tab", em: "😗" },
+    { en: "Tab", he: "Tab", em: "Tab" },
     { en: "q", he: "/", em: "😙" },
     { en: "w", he: "'", em: "😚" },
     { en: "e", he: "ק", em: "☺️" },
@@ -82,7 +98,7 @@ export const KEYBOARD_LAYOUT_ROWS = [
     { en: "l", he: "ף", em: "😛" },
     { en: ";", he: ";", em: "😜" },
     { en: "'", he: "'", em: "😝" },
-    { en: "Enter", he: "Enter", em: "🤤" },
+    { en: "Enter", he: "Enter", em: "Enter" },
   ],
   [
     { en: "Shift", he: "Shift", em: "😒" },
@@ -96,13 +112,13 @@ export const KEYBOARD_LAYOUT_ROWS = [
     { en: ",", he: "צ", em: "🙁" },
     { en: ".", he: ",", em: "😖" },
     { en: "/", he: ".", em: "😞" },
-    { en: "Shift", he: "Shift", em: "😟" },
+    { en: "?", he: "?", em: "😟" },
   ],
   [
     { en: "Ctrl", he: "Ctrl", em: "😤" },
     { en: "Alt", he: "Alt", em: "😢" },
-    { en: "Space", he: "Space", em: "😭" },
-    { en: "Alt", he: "Alt", em: "😦" },
-    { en: "Ctrl", he: "Ctrl", em: "😧" },
+    { en: "Space", he: "Space", em: "Space" },
+    { en: "<", he: "<", em: "😦" },
+    { en: ">", he: ">", em: "😧" },
   ],
 ];

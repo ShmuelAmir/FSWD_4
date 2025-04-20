@@ -1,11 +1,20 @@
-import { LANGUAGES, FONTS, FONT_COLORS, FONT_SIZES } from "../consts";
-
-import DeleteLast from "../assets/delete-last.tsx";
-import DeleteWord from "../assets/delete-word.tsx";
-import DeleteAll from "../assets/delete-all.tsx";
+import { LANGUAGES, FONT_ACTIONS, DELETE_ACTIONS } from "../consts";
 import Undo from "../assets/undo.tsx";
 
-function SpecialKeys({ lang, setLang, handleSpecialKeyClick }) {
+function SpecialKeys({
+  lang,
+  setLang,
+  handleDeleteKeyClick,
+  handleStyleChange,
+  setEditAll,
+  editAll,
+  handleSearch,
+  handleReplace,
+}) {
+  const handleUndoClick = () => {
+    // TODO: implement undo functionality
+  };
+
   return (
     <div className="special-keys">
       <div className="group">
@@ -22,63 +31,61 @@ function SpecialKeys({ lang, setLang, handleSpecialKeyClick }) {
       <div className="seperator" />
 
       <div className="group gap-lg grow">
-        <select
-          onChange={(e) => handleSpecialKeyClick("font-family", e.target.value)}
+        <button
+          className={editAll ? "active" : ""}
+          onClick={() => setEditAll((p) => !p)}
         >
-          {FONTS.map((font) => (
-            <option key={font} value={font}>
-              {font}
-            </option>
-          ))}
-        </select>
-        <select
-          className="grow"
-          onChange={(e) => handleSpecialKeyClick("font-size", e.target.value)}
-        >
-          {FONT_SIZES.map((size) => (
-            <option key={size} value={size}>
-              {size}
-            </option>
-          ))}
-        </select>
-        <select
-          className="grow"
-          onChange={(e) => handleSpecialKeyClick("font-color", e.target.value)}
-        >
-          {FONT_COLORS.map((color) => (
-            <option key={color.name} value={color.hash}>
-              {color.name}
-            </option>
-          ))}
-        </select>
+          All
+        </button>
+        {/* TODO: sync with current style with useState */}
+        {FONT_ACTIONS.map(({ key, values }) => (
+          <select
+            key={key}
+            className="grow"
+            onChange={(e) => handleStyleChange(key, e.target.value)}
+          >
+            {values.map((value) => {
+              if (typeof value === "object") {
+                return (
+                  <option key={value.name} value={value.hash}>
+                    {value.name}
+                  </option>
+                );
+              }
+              return (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              );
+            })}
+          </select>
+        ))}
       </div>
       <div className="seperator" />
 
       <div className="group">
-        {["delete-last", "delete-word", "delete-all"].map((key) => (
+        {DELETE_ACTIONS.map(({ key, name, icon: Icon }) => (
           <button
             key={key}
-            onClick={() => handleSpecialKeyClick(key)}
-            title={key.replace("-", " ")}
+            onClick={() => handleDeleteKeyClick(key)}
+            title={name}
           >
-            {key === "delete-last" ? (
-              <DeleteLast />
-            ) : key === "delete-word" ? (
-              <DeleteWord />
-            ) : (
-              <DeleteAll />
-            )}
+            {Icon ? <Icon /> : name}
           </button>
         ))}
-        <button title="undo">
+        <button title="undo" onClick={handleUndoClick}>
           <Undo />
         </button>
       </div>
       <div className="seperator" />
 
       <div className="group gap-lg">
-        <input type="text" placeholder="Search..." />
-        <input type="text" placeholder="Replace" />
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+        <input type="text" placeholder="Replace" onClick={handleReplace} />
       </div>
     </div>
   );
