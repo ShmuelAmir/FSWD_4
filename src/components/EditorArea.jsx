@@ -3,7 +3,7 @@ import { useState } from "react";
 import Keyboard from "./Keyboard";
 import SpecialKeys from "./SpecialKeys";
 
-function EditorArea({ textPosition, setText, setStyles, text }) {
+function EditorArea({ setText, setStyles, text }) {
   const [lang, setLang] = useState("EN");
   const [editAll, setEditAll] = useState(true);
 
@@ -24,7 +24,7 @@ function EditorArea({ textPosition, setText, setStyles, text }) {
   };
 
   const handleDeleteKeyClick = (key) => {
-    let len = textPosition;
+    let len = text.length;
 
     setText((prev) => {
       if (key === "delete-last") {
@@ -49,7 +49,7 @@ function EditorArea({ textPosition, setText, setStyles, text }) {
   };
 
   const handleStyleChange = (key, value) => {
-    const index = editAll ? 0 : textPosition;
+    const index = editAll ? 0 : text.length;
 
     setStyles((prev) => {
       const newStyles = [...prev];
