@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { LANGUAGES, FONT_ACTIONS, DELETE_ACTIONS } from "../consts";
-import Undo from "../assets/undo.tsx";
+import Undo from "../assets/undo.jsx";
 
 function SpecialKeys({
   lang,

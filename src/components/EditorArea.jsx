@@ -134,7 +134,7 @@ function EditorArea({ text, setText, styles, setStyles, setMatches }) {
   };
 
   return (
-    <div className="area">
+    <div className="paper area">
       <SpecialKeys
         lang={lang}
         setLang={setLang}
