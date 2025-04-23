@@ -11,7 +11,7 @@ function App() {
   return (
     <main>
       <DisplayArea text={text} styles={styles} />
-      <EditorArea text={text} setText={setText} setStyles={setStyles} />
+      <EditorArea text={text} setText={setText} styles={styles} setStyles={setStyles} />
     </main>
   );
 }

@@ -1,5 +1,6 @@
 import { LANGUAGES, FONT_ACTIONS, DELETE_ACTIONS } from "../consts";
 import Undo from "../assets/undo.tsx";
+import { useState } from "react";
 
 function SpecialKeys({
   lang,
@@ -10,7 +11,11 @@ function SpecialKeys({
   editAll,
   handleSearch,
   handleReplace,
+  handleSave,
+  handleOpen
 }) {
+  const [saveName, setSaveName] = useState("");
+  const [openKey, setOpenKey] = useState("");
   const handleUndoClick = () => {
     // TODO: implement undo functionality
   };
@@ -86,6 +91,54 @@ function SpecialKeys({
           onChange={(e) => handleSearch(e.target.value)}
         />
         <input type="text" placeholder="Replace" onClick={handleReplace} />
+      </div>
+      <div className="seperator" />
+
+      <div className="group gap-lg">
+        <div className="save-container">
+          <input
+            type="text"
+            placeholder="Save as..."
+            id="saveName"
+            value={saveName}
+            onChange={(e) => setSaveName(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              
+              if (saveName) {
+                // Call handleSave with the save name
+                setSaveName("");
+                handleSave(saveName);
+              } else {
+                alert("Please provide a name to save.");
+              }
+            }}
+          >
+            OK
+          </button>
+        </div>
+        <div className="open-container">
+          <input
+            type="text"
+            placeholder="Enter file name..."
+            id="openKey"
+            value={openKey}
+            onChange={(e) => setOpenKey(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              if (openKey) {
+               setOpenKey("");
+                handleOpen(openKey);
+              } else {
+                alert("Please provide a name of file saved to open.");
+              }
+            }}
+          >
+            OK
+          </button>
+        </div>
       </div>
     </div>
   );
