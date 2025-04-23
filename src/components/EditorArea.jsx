@@ -136,7 +136,7 @@ function EditorArea({
       setText(text);
       setStyles(styles);
     } else {
-      console.log("File not found for the given key.");
+      alert("File not found for the given key.");
     }
   };
 

@@ -16,7 +16,7 @@ function App() {
       ) : route === "signup" ? (
         <SignUp setRoute={setRoute} />
       ) : route === "editor" ? (
-        <EditorPage user={user} setUser={setUser} />
+        <EditorPage user={user} setUser={setUser} setRoute={setRoute} />
       ) : null}
     </main>
   );

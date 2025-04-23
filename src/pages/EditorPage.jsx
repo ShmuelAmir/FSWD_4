@@ -4,7 +4,7 @@ import DisplayArea from "../components/DisplayArea";
 import EditorArea from "../components/EditorArea";
 import Topbar from "../components/Topbar";
 
-function EditorPage({ user, setUser }) {
+function EditorPage({ user, setUser, setRoute }) {
   const [text, setText] = useState([""]);
   const [styles, setStyles] = useState([[{ startIndex: 0, style: {} }]]);
   const [matches, setMatches] = useState([[]]);
@@ -74,6 +74,7 @@ function EditorPage({ user, setUser }) {
         user={user}
         setUser={setUser}
         text={text[activeFile]}
+        setRoute={setRoute}
         setText={(updater) => setActiveState(setText, updater)}
         styles={styles[activeFile]}
         setStyles={(updater) => setActiveState(setStyles, updater)}
