@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import LogIn from "./components/LogIn";
-import SignUp from "./components/SignUp";
+import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
 import EditorPage from "./pages/EditorPage";
 import "./App.css";
 
