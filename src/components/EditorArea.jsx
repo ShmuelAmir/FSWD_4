@@ -3,7 +3,7 @@ import { useState } from "react";
 import Keyboard from "./Keyboard";
 import SpecialKeys from "./SpecialKeys";
 
-function EditorArea({ text, setText, styles, setStyles,  }) {
+function EditorArea({ text, setText, styles, setStyles, setRoute, user, setUser }) {
   const [lang, setLang] = useState("EN");
   const [editAll, setEditAll] = useState(true);
 
@@ -82,26 +82,31 @@ function EditorArea({ text, setText, styles, setStyles,  }) {
     // TODO: implement replace functionality
   };
 
-  //je veux sauvegarder le texte affiché tel qu'il est jusqu'à présent dans le local storage avec son style
-//je veux la fonction recoive le texte et le style en paramètre et le nom de la clé dans le local storage
-//je veux que la fonction sauvegarde le texte et le style dans le local storage avec la clé donnée
-const handleSaveAs = (key) => {
-  const data = { text, styles };
-  localStorage.setItem(key, JSON.stringify(data));
-}
+  //The handleSaveAS function saves the provided text and its associated style into the browser's local storage using a specified key.
+  const handleSaveAs = (key) => {
+    const storedData = JSON.parse(localStorage.getItem(user));
+    const userFiles = storedData ? storedData.userFiles : null;
+    const newFile = { text, styles };
+    userFiles.push({key,newFile}); // Add the new file to the user's files array
+    const userData = { ...storedData, userFiles }; // Create a new object with the updated files array
+    localStorage.setItem(user, JSON.stringify(userData)); // Save the updated user data back to local storage
+  };
 
-//je veux que la fonction récupère le texte et le style du local storage avec la clé donnée
-
-const handleOpen = (key) => {
-  const data = JSON.parse(localStorage.getItem(key));
-  if (data) {
-    setText(data.text);
-    setStyles(data.styles);
-  } else {
-    console.log("No data found for the given key.");
-  }
-};
-
+  // The handleOpen function retrieves the text and styles associated with a given key from local storage and updates the state variables accordingly.
+  // If no data is found for the given key, it logs a message to the console.
+  const handleOpen = (key) => {
+    const storedData = JSON.parse(localStorage.getItem(user));
+    const userFiles = storedData ? storedData.userFiles : null;
+    const fileData = userFiles.find((file) => file.key === key);
+    if (fileData) {
+      const { text, styles } = fileData.newFile;
+      setText(text);
+      setStyles(styles);
+    }
+    else{
+      console.log("File not found for the given key.");
+    }
+  };
 
   return (
     <div className="area">
@@ -114,10 +119,11 @@ const handleOpen = (key) => {
         editAll={editAll}
         handleSearch={handleSearch}
         handleReplace={handleReplace}
-        handleSave={handleSaveAs}
+        handleSaveAs={handleSaveAs}
         handleOpen={handleOpen}
       />
       <Keyboard handleClick={handleClick} lang={lang} />
+      <button className="logout-button" onClick={() => {setRoute("login"); setUser(null); setText("")}}>Log Out</button>
     </div>
   );
 }

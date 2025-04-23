@@ -119,3 +119,76 @@ select {
 .active {
   background-color: var(--violet-300);
 }
+
+
+/* form */
+
+.form {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form h2 {
+  text-align: center;
+}
+
+.form .form-group {
+  margin-bottom: 15px;
+}
+
+.form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form .form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: #218838;
+}
+
+/*Boutton Log Out .css*/
+
+.logout-button {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  padding: 10px 20px;
+  background-color: #f44336; /* Red */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.logout-button:hover {
+  background-color: #d32f2f; /* Darker red */
+}

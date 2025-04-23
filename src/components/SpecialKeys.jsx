@@ -11,7 +11,7 @@ function SpecialKeys({
   editAll,
   handleSearch,
   handleReplace,
-  handleSave,
+  handleSaveAs,
   handleOpen
 }) {
   const [saveName, setSaveName] = useState("");
@@ -107,9 +107,8 @@ function SpecialKeys({
             onClick={() => {
               
               if (saveName) {
-                // Call handleSave with the save name
                 setSaveName("");
-                handleSave(saveName);
+                handleSaveAs(saveName);
               } else {
                 alert("Please provide a name to save.");
               }
