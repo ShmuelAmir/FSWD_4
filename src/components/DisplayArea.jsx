@@ -1,17 +1,19 @@
-function DisplayArea({ text, styles }) {
+import File from "./File";
+
+function DisplayArea({ text, styles, matches, activeFile, setActive }) {
   return (
     <div className="area">
       <div className="display-area">
-        {styles.map(({ startIndex, style }, index) => {
-          const nextStartIndex = styles[index + 1]?.startIndex || text.length;
-          const textSlice = text.slice(startIndex, nextStartIndex);
-
-          return (
-            <span key={index} style={style}>
-              {textSlice}
-            </span>
-          );
-        })}
+        {text.map((_, index) => (
+          <File
+            key={index}
+            text={text[index]}
+            styles={styles[index]}
+            matches={matches[index]}
+            active={index === activeFile}
+            handleActive={() => setActive(index)}
+          />
+        ))}
       </div>
     </div>
   );

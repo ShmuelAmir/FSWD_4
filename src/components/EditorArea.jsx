@@ -3,14 +3,24 @@ import { useState } from "react";
 import Keyboard from "./Keyboard";
 import SpecialKeys from "./SpecialKeys";
 
-function EditorArea({ text, setText, styles, setStyles, setRoute, user, setUser }) {
+function EditorArea({
+  text,
+  setText,
+  styles,
+  setStyles,
+  setRoute,
+  user,
+  setUser,
+  setMatches,
+}) {
   const [lang, setLang] = useState("EN");
   const [editAll, setEditAll] = useState(true);
+  const [styleStack, setStyleStack] = useState([]);
 
   const handleClick = (key) => {
     switch (key) {
       case "Backspace":
-        setText((prev) => prev.slice(0, -1));
+        handleDeleteKeyClick("delete-last");
         break;
       case "Enter":
         setText((prev) => prev + "\n");
@@ -49,51 +59,76 @@ function EditorArea({ text, setText, styles, setStyles, setRoute, user, setUser 
   };
 
   const handleStyleChange = (key, value) => {
-    const index = editAll ? 0 : text.length;
+    if (editAll) {
+      setStyles((prev) => {
+        setStyleStack((p) => [...p, prev]);
+        return prev.map((s) => ({
+          ...s,
+          style: {
+            ...s.style,
+            [key]: value,
+          },
+        }));
+      });
+    } else {
+      setStyles((prev) => {
+        setStyleStack((p) => [...p, prev]);
 
-    setStyles((prev) => {
-      const newStyles = [...prev];
+        const newStyles = [...prev];
+        const index = text.length;
 
-      const existingStyleIndex = newStyles.findIndex(
-        (s) => s.startIndex === index
-      );
+        const existingStyleIndex = newStyles.findIndex(
+          (s) => s.startIndex === index
+        );
 
-      if (existingStyleIndex !== -1) {
-        newStyles[existingStyleIndex] = {
-          startIndex: existingStyleIndex,
-          style: { ...newStyles[existingStyleIndex].style, [key]: value },
-        };
-      } else {
-        newStyles.push({
-          startIndex: index,
-          style: { ...newStyles.at(-1).style, [key]: value },
-        });
-      }
+        if (existingStyleIndex !== -1) {
+          newStyles[existingStyleIndex] = {
+            startIndex: existingStyleIndex,
+            style: { ...newStyles[existingStyleIndex].style, [key]: value },
+          };
+        } else {
+          if (newStyles.length > 1) {
+            newStyles.at(-1).endIndex = index;
+          }
+          newStyles.push({
+            startIndex: index,
+            style: { ...newStyles.at(-1).style, [key]: value },
+          });
+        }
 
-      return newStyles;
-    });
+        return newStyles;
+      });
+    }
   };
 
   const handleSearch = (search) => {
-    // TODO: implement search functionality
+    if (!search) {
+      setMatches([]);
+    } else {
+      const searchRegex = new RegExp(search, "gi");
+      const matches = [...text.matchAll(searchRegex)];
+
+      setMatches(
+        matches.map((m) => ({ start: m.index, end: m.index + search.length }))
+      );
+    }
   };
 
   const handleReplace = (search, replace) => {
-    // TODO: implement replace functionality
+    const searchRegex = new RegExp(search, "gi");
+    setText(text.replace(searchRegex, replace));
+    setMatches([]);
   };
 
-  //The handleSaveAS function saves the provided text and its associated style into the browser's local storage using a specified key.
   const handleSaveAs = (key) => {
     const storedData = JSON.parse(localStorage.getItem(user));
     const userFiles = storedData ? storedData.userFiles : null;
     const newFile = { text, styles };
-    userFiles.push({key,newFile}); // Add the new file to the user's files array
-    const userData = { ...storedData, userFiles }; // Create a new object with the updated files array
-    localStorage.setItem(user, JSON.stringify(userData)); // Save the updated user data back to local storage
+    userFiles.push({ key, newFile });
+    const userData = { ...storedData, userFiles };
+    localStorage.setItem(user, JSON.stringify(userData));
   };
 
-  // The handleOpen function retrieves the text and styles associated with a given key from local storage and updates the state variables accordingly.
-  // If no data is found for the given key, it logs a message to the console.
   const handleOpen = (key) => {
     const storedData = JSON.parse(localStorage.getItem(user));
     const userFiles = storedData ? storedData.userFiles : null;
@@ -102,14 +137,20 @@ function EditorArea({ text, setText, styles, setStyles, setRoute, user, setUser 
       const { text, styles } = fileData.newFile;
       setText(text);
       setStyles(styles);
-    }
-    else{
+    } else {
       console.log("File not found for the given key.");
     }
   };
 
+  const handleUndoClick = () => {
+    if (styleStack.length > 1) {
+      setStyleStack((prev) => prev.slice(0, prev.length - 1));
+      setStyles(styleStack.at(-2));
+    }
+  };
+
   return (
-    <div className="area">
+    <div className="paper area">
       <SpecialKeys
         lang={lang}
         setLang={setLang}
@@ -121,9 +162,19 @@ function EditorArea({ text, setText, styles, setStyles, setRoute, user, setUser 
         handleReplace={handleReplace}
         handleSaveAs={handleSaveAs}
         handleOpen={handleOpen}
+        handleUndoClick={handleUndoClick}
       />
       <Keyboard handleClick={handleClick} lang={lang} />
-      <button className="logout-button" onClick={() => {setRoute("login"); setUser(null); setText("")}}>Log Out</button>
+      <button
+        className="logout-button"
+        onClick={() => {
+          setRoute("login");
+          setUser(null);
+          setText("");
+        }}
+      >
+        Log Out
+      </button>
     </div>
   );
 }

@@ -1,6 +1,7 @@
-import { LANGUAGES, FONT_ACTIONS, DELETE_ACTIONS } from "../consts";
-import Undo from "../assets/undo.tsx";
 import { useState } from "react";
+
+import { LANGUAGES, FONT_ACTIONS, DELETE_ACTIONS } from "../consts";
+import Undo from "../assets/undo.jsx";
 
 function SpecialKeys({
   lang,
@@ -12,13 +13,13 @@ function SpecialKeys({
   handleSearch,
   handleReplace,
   handleSaveAs,
-  handleOpen
+  handleOpen,
+  handleUndoClick,
 }) {
+  const [search, setSearch] = useState("");
+  const [replace, setReplace] = useState("");
   const [saveName, setSaveName] = useState("");
   const [openKey, setOpenKey] = useState("");
-  const handleUndoClick = () => {
-    // TODO: implement undo functionality
-  };
 
   return (
     <div className="special-keys">
@@ -35,14 +36,13 @@ function SpecialKeys({
       </div>
       <div className="seperator" />
 
-      <div className="group gap-lg grow">
+      <div className="group">
         <button
           className={editAll ? "active" : ""}
           onClick={() => setEditAll((p) => !p)}
         >
           All
         </button>
-        {/* TODO: sync with current style with useState */}
         {FONT_ACTIONS.map(({ key, values }) => (
           <select
             key={key}
@@ -84,28 +84,43 @@ function SpecialKeys({
       </div>
       <div className="seperator" />
 
-      <div className="group gap-lg">
+      <div className="group">
         <input
           type="text"
           placeholder="Search..."
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            handleSearch(e.target.value);
+          }}
         />
-        <input type="text" placeholder="Replace" onClick={handleReplace} />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Replace"
+            value={replace}
+            onChange={(e) => setReplace(e.target.value)}
+          />
+          <button
+            className="absolute"
+            onClick={() => handleReplace(search, replace)}
+          >
+            OK
+          </button>
+        </div>
       </div>
       <div className="seperator" />
 
-      <div className="group gap-lg">
-        <div className="save-container">
+      <div className="group">
+        <div className="relative">
           <input
             type="text"
             placeholder="Save as..."
-            id="saveName"
             value={saveName}
             onChange={(e) => setSaveName(e.target.value)}
           />
           <button
+            className="absolute"
             onClick={() => {
-              
               if (saveName) {
                 setSaveName("");
                 handleSaveAs(saveName);
@@ -117,18 +132,18 @@ function SpecialKeys({
             OK
           </button>
         </div>
-        <div className="open-container">
+        <div className="relative">
           <input
             type="text"
             placeholder="Enter file name..."
-            id="openKey"
             value={openKey}
             onChange={(e) => setOpenKey(e.target.value)}
           />
           <button
+            className="absolute"
             onClick={() => {
               if (openKey) {
-               setOpenKey("");
+                setOpenKey("");
                 handleOpen(openKey);
               } else {
                 alert("Please provide a name of file saved to open.");

@@ -1,6 +1,6 @@
-import DeleteLast from "./assets/delete-last.tsx";
-import DeleteWord from "./assets/delete-word.tsx";
-import DeleteAll from "./assets/delete-all.tsx";
+import DeleteLast from "./assets/delete-last.jsx";
+import DeleteWord from "./assets/delete-word.jsx";
+import DeleteAll from "./assets/delete-all.jsx";
 
 export const LANGUAGES = ["EN", "HE", "EM"];
 
