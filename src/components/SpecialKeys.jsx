@@ -1,6 +1,7 @@
+import { useState } from "react";
+
 import { LANGUAGES, FONT_ACTIONS, DELETE_ACTIONS } from "../consts";
 import Undo from "../assets/undo.tsx";
-import { useState } from "react";
 
 function SpecialKeys({
   lang,
@@ -12,10 +13,13 @@ function SpecialKeys({
   handleSearch,
   handleReplace,
   handleSave,
-  handleOpen
+  handleOpen,
 }) {
+  const [search, setSearch] = useState("");
+  const [replace, setReplace] = useState("");
   const [saveName, setSaveName] = useState("");
   const [openKey, setOpenKey] = useState("");
+
   const handleUndoClick = () => {
     // TODO: implement undo functionality
   };
@@ -88,9 +92,18 @@ function SpecialKeys({
         <input
           type="text"
           placeholder="Search..."
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            handleSearch(e.target.value);
+          }}
         />
-        <input type="text" placeholder="Replace" onClick={handleReplace} />
+        <input
+          type="text"
+          placeholder="Replace"
+          value={replace}
+          onChange={(e) => setReplace(e.target.value)}
+        />
+        <button onClick={() => handleReplace(search, replace)}>OK</button>
       </div>
       <div className="seperator" />
 
@@ -105,7 +118,6 @@ function SpecialKeys({
           />
           <button
             onClick={() => {
-              
               if (saveName) {
                 // Call handleSave with the save name
                 setSaveName("");
@@ -129,7 +141,7 @@ function SpecialKeys({
           <button
             onClick={() => {
               if (openKey) {
-               setOpenKey("");
+                setOpenKey("");
                 handleOpen(openKey);
               } else {
                 alert("Please provide a name of file saved to open.");

@@ -7,11 +7,18 @@ import "./App.css";
 function App() {
   const [text, setText] = useState("");
   const [styles, setStyles] = useState([{ startIndex: 0, style: {} }]);
+  const [matches, setMatches] = useState([]);
 
   return (
     <main>
-      <DisplayArea text={text} styles={styles} />
-      <EditorArea text={text} setText={setText} styles={styles} setStyles={setStyles} />
+      <DisplayArea text={text} styles={styles} matches={matches} />
+      <EditorArea
+        text={text}
+        setText={setText}
+        setStyles={setStyles}
+        setMatches={setMatches}
+        styles={styles}
+      />
     </main>
   );
 }

@@ -13,15 +13,12 @@ button {
   background-color: transparent;
 }
 
-input {
+input,
+select {
   border: none;
   outline: none;
   border-radius: var(--radius);
   padding: 0.5rem 1rem;
-}
-
-select {
-  font-size: 1.5rem;
 }
 
 .area {
