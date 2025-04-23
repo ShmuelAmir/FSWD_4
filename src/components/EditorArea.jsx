@@ -3,14 +3,14 @@ import { useState } from "react";
 import Keyboard from "./Keyboard";
 import SpecialKeys from "./SpecialKeys";
 
-function EditorArea({ setText, setStyles, text }) {
+function EditorArea({ setText, setStyles, text, setMatches }) {
   const [lang, setLang] = useState("EN");
   const [editAll, setEditAll] = useState(true);
 
   const handleClick = (key) => {
     switch (key) {
       case "Backspace":
-        setText((prev) => prev.slice(0, -1));
+        handleDeleteKeyClick("delete-last");
         break;
       case "Enter":
         setText((prev) => prev + "\n");
@@ -49,37 +49,62 @@ function EditorArea({ setText, setStyles, text }) {
   };
 
   const handleStyleChange = (key, value) => {
-    const index = editAll ? 0 : text.length;
-
-    setStyles((prev) => {
-      const newStyles = [...prev];
-
-      const existingStyleIndex = newStyles.findIndex(
-        (s) => s.startIndex === index
+    if (editAll) {
+      setStyles((prev) =>
+        prev.map((s) => ({
+          ...s,
+          style: {
+            ...s.style,
+            [key]: value,
+          },
+        }))
       );
+    } else {
+      setStyles((prev) => {
+        const newStyles = [...prev];
+        const index = text.length;
 
-      if (existingStyleIndex !== -1) {
-        newStyles[existingStyleIndex] = {
-          startIndex: existingStyleIndex,
-          style: { ...newStyles[existingStyleIndex].style, [key]: value },
-        };
-      } else {
-        newStyles.push({
-          startIndex: index,
-          style: { ...newStyles.at(-1).style, [key]: value },
-        });
-      }
+        const existingStyleIndex = newStyles.findIndex(
+          (s) => s.startIndex === index
+        );
 
-      return newStyles;
-    });
+        if (existingStyleIndex !== -1) {
+          newStyles[existingStyleIndex] = {
+            startIndex: existingStyleIndex,
+            style: { ...newStyles[existingStyleIndex].style, [key]: value },
+          };
+        } else {
+          if (newStyles.length > 1) {
+            newStyles.at(-1).endIndex = index;
+          }
+          newStyles.push({
+            startIndex: index,
+            style: { ...newStyles.at(-1).style, [key]: value },
+          });
+        }
+
+        return newStyles;
+      });
+    }
   };
 
   const handleSearch = (search) => {
-    // TODO: implement search functionality
+    if (!search) {
+      setMatches([]);
+    } else {
+      const searchRegex = new RegExp(search, "gi");
+      const matches = [...text.matchAll(searchRegex)];
+
+      setMatches(
+        matches.map((m) => ({ start: m.index, end: m.index + search.length }))
+      );
+    }
   };
 
   const handleReplace = (search, replace) => {
-    // TODO: implement replace functionality
+    const searchRegex = new RegExp(search, "gi");
+    setText(text.replace(searchRegex, replace));
+    setMatches([]);
   };
 
   return (
