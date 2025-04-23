@@ -3,7 +3,7 @@ import { useState } from "react";
 import Keyboard from "./Keyboard";
 import SpecialKeys from "./SpecialKeys";
 
-function EditorArea({ setText, setStyles, text }) {
+function EditorArea({ text, setText, styles, setStyles,  }) {
   const [lang, setLang] = useState("EN");
   const [editAll, setEditAll] = useState(true);
 
@@ -82,6 +82,27 @@ function EditorArea({ setText, setStyles, text }) {
     // TODO: implement replace functionality
   };
 
+  //je veux sauvegarder le texte affiché tel qu'il est jusqu'à présent dans le local storage avec son style
+//je veux la fonction recoive le texte et le style en paramètre et le nom de la clé dans le local storage
+//je veux que la fonction sauvegarde le texte et le style dans le local storage avec la clé donnée
+const handleSaveAs = (key) => {
+  const data = { text, styles };
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+//je veux que la fonction récupère le texte et le style du local storage avec la clé donnée
+
+const handleOpen = (key) => {
+  const data = JSON.parse(localStorage.getItem(key));
+  if (data) {
+    setText(data.text);
+    setStyles(data.styles);
+  } else {
+    console.log("No data found for the given key.");
+  }
+};
+
+
   return (
     <div className="area">
       <SpecialKeys
@@ -93,6 +114,8 @@ function EditorArea({ setText, setStyles, text }) {
         editAll={editAll}
         handleSearch={handleSearch}
         handleReplace={handleReplace}
+        handleSave={handleSaveAs}
+        handleOpen={handleOpen}
       />
       <Keyboard handleClick={handleClick} lang={lang} />
     </div>
