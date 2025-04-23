@@ -15,9 +15,9 @@ function App() {
       <EditorArea
         text={text}
         setText={setText}
+        styles={styles}
         setStyles={setStyles}
         setMatches={setMatches}
-        styles={styles}
       />
     </main>
   );

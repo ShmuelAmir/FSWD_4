@@ -14,15 +14,12 @@ function SpecialKeys({
   handleReplace,
   handleSave,
   handleOpen,
+  handleUndoClick,
 }) {
   const [search, setSearch] = useState("");
   const [replace, setReplace] = useState("");
   const [saveName, setSaveName] = useState("");
   const [openKey, setOpenKey] = useState("");
-
-  const handleUndoClick = () => {
-    // TODO: implement undo functionality
-  };
 
   return (
     <div className="special-keys">
@@ -39,7 +36,7 @@ function SpecialKeys({
       </div>
       <div className="seperator" />
 
-      <div className="group gap-lg grow">
+      <div className="group">
         <button
           className={editAll ? "active" : ""}
           onClick={() => setEditAll((p) => !p)}
@@ -88,7 +85,7 @@ function SpecialKeys({
       </div>
       <div className="seperator" />
 
-      <div className="group gap-lg">
+      <div className="group">
         <input
           type="text"
           placeholder="Search..."
@@ -97,26 +94,33 @@ function SpecialKeys({
             handleSearch(e.target.value);
           }}
         />
-        <input
-          type="text"
-          placeholder="Replace"
-          value={replace}
-          onChange={(e) => setReplace(e.target.value)}
-        />
-        <button onClick={() => handleReplace(search, replace)}>OK</button>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Replace"
+            value={replace}
+            onChange={(e) => setReplace(e.target.value)}
+          />
+          <button
+            className="absolute"
+            onClick={() => handleReplace(search, replace)}
+          >
+            OK
+          </button>
+        </div>
       </div>
       <div className="seperator" />
 
-      <div className="group gap-lg">
-        <div className="save-container">
+      <div className="group">
+        <div className="relative">
           <input
             type="text"
             placeholder="Save as..."
-            id="saveName"
             value={saveName}
             onChange={(e) => setSaveName(e.target.value)}
           />
           <button
+            className="absolute"
             onClick={() => {
               if (saveName) {
                 // Call handleSave with the save name
@@ -130,15 +134,15 @@ function SpecialKeys({
             OK
           </button>
         </div>
-        <div className="open-container">
+        <div className="relative">
           <input
             type="text"
             placeholder="Enter file name..."
-            id="openKey"
             value={openKey}
             onChange={(e) => setOpenKey(e.target.value)}
           />
           <button
+            className="absolute"
             onClick={() => {
               if (openKey) {
                 setOpenKey("");
