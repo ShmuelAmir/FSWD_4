@@ -14,15 +14,12 @@ function SpecialKeys({
   handleReplace,
   handleSave,
   handleOpen,
+  handleUndoClick,
 }) {
   const [search, setSearch] = useState("");
   const [replace, setReplace] = useState("");
   const [saveName, setSaveName] = useState("");
   const [openKey, setOpenKey] = useState("");
-
-  const handleUndoClick = () => {
-    // TODO: implement undo functionality
-  };
 
   return (
     <div className="special-keys">

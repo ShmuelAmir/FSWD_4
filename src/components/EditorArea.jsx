@@ -6,6 +6,7 @@ import SpecialKeys from "./SpecialKeys";
 function EditorArea({ text, setText, styles, setStyles, setMatches }) {
   const [lang, setLang] = useState("EN");
   const [editAll, setEditAll] = useState(true);
+  const [styleStack, setStyleStack] = useState([]);
 
   const handleClick = (key) => {
     switch (key) {
@@ -50,17 +51,20 @@ function EditorArea({ text, setText, styles, setStyles, setMatches }) {
 
   const handleStyleChange = (key, value) => {
     if (editAll) {
-      setStyles((prev) =>
-        prev.map((s) => ({
+      setStyles((prev) => {
+        setStyleStack((p) => [...p, prev]);
+        return prev.map((s) => ({
           ...s,
           style: {
             ...s.style,
             [key]: value,
           },
-        }))
-      );
+        }));
+      });
     } else {
       setStyles((prev) => {
+        setStyleStack((p) => [...p, prev]);
+
         const newStyles = [...prev];
         const index = text.length;
 
@@ -122,6 +126,13 @@ function EditorArea({ text, setText, styles, setStyles, setMatches }) {
     }
   };
 
+  const handleUndoClick = () => {
+    if (styleStack.length > 1) {
+      setStyleStack((prev) => prev.slice(0, prev.length - 1));
+      setStyles(styleStack.at(-2));
+    }
+  };
+
   return (
     <div className="area">
       <SpecialKeys
@@ -135,6 +146,7 @@ function EditorArea({ text, setText, styles, setStyles, setMatches }) {
         handleReplace={handleReplace}
         handleSave={handleSaveAs}
         handleOpen={handleOpen}
+        handleUndoClick={handleUndoClick}
       />
       <Keyboard handleClick={handleClick} lang={lang} />
     </div>
