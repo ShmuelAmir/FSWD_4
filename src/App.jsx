@@ -17,6 +17,7 @@ function App() {
         setText={setText}
         setStyles={setStyles}
         setMatches={setMatches}
+        styles={styles}
       />
     </main>
   );

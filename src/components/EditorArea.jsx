@@ -3,7 +3,7 @@ import { useState } from "react";
 import Keyboard from "./Keyboard";
 import SpecialKeys from "./SpecialKeys";
 
-function EditorArea({ setText, setStyles, text, setMatches }) {
+function EditorArea({ text, setText, styles, setStyles, setMatches }) {
   const [lang, setLang] = useState("EN");
   const [editAll, setEditAll] = useState(true);
 
@@ -107,6 +107,21 @@ function EditorArea({ setText, setStyles, text, setMatches }) {
     setMatches([]);
   };
 
+  const handleSaveAs = (key) => {
+    const data = { text, styles };
+    localStorage.setItem(key, JSON.stringify(data));
+  };
+
+  const handleOpen = (key) => {
+    const data = JSON.parse(localStorage.getItem(key));
+    if (data) {
+      setText(data.text);
+      setStyles(data.styles);
+    } else {
+      console.log("No data found for the given key.");
+    }
+  };
+
   return (
     <div className="area">
       <SpecialKeys
@@ -118,6 +133,8 @@ function EditorArea({ setText, setStyles, text, setMatches }) {
         editAll={editAll}
         handleSearch={handleSearch}
         handleReplace={handleReplace}
+        handleSave={handleSaveAs}
+        handleOpen={handleOpen}
       />
       <Keyboard handleClick={handleClick} lang={lang} />
     </div>
