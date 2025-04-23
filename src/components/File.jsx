@@ -6,11 +6,13 @@ function File({ text, styles, matches, active, handleActive }) {
     textSlice
   ) => {
     if (!matches?.length) {
-      return (
-        <span key={`${startIndex}#${endIndex}`} style={baseStyle}>
-          {textSlice}
-        </span>
-      );
+      return [
+        {
+          key: `${startIndex}#${endIndex}`,
+          style: baseStyle,
+          text: textSlice,
+        },
+      ];
     }
 
     const spans = [];
@@ -25,11 +27,11 @@ function File({ text, styles, matches, active, handleActive }) {
       if (matchStartsInRange || matchEndsInRange) {
         // before match
         if (currentIndex < match.start - startIndex) {
-          spans.push(
-            <span key={`before-${match.start}`} style={baseStyle}>
-              {textSlice.slice(currentIndex, match.start - startIndex)}
-            </span>
-          );
+          spans.push({
+            key: `before-${match.start}`,
+            style: baseStyle,
+            text: textSlice.slice(currentIndex, match.start - startIndex),
+          });
         }
 
         // in the range
@@ -37,14 +39,11 @@ function File({ text, styles, matches, active, handleActive }) {
         const matchEndInSlice = Math.min(sliceLength, match.end - startIndex);
 
         if (matchStartInSlice < matchEndInSlice) {
-          spans.push(
-            <span
-              key={`match-${match.start}`}
-              style={{ ...baseStyle, backgroundColor: "yellow" }}
-            >
-              {textSlice.slice(matchStartInSlice, matchEndInSlice)}
-            </span>
-          );
+          spans.push({
+            key: `match-${match.start}`,
+            style: { ...baseStyle, backgroundColor: "yellow" },
+            text: textSlice.slice(matchStartInSlice, matchEndInSlice),
+          });
         }
 
         currentIndex = matchEndInSlice;
@@ -53,14 +52,14 @@ function File({ text, styles, matches, active, handleActive }) {
 
     // after
     if (currentIndex < sliceLength) {
-      spans.push(
-        <span key={`after-${currentIndex}`} style={baseStyle}>
-          {textSlice.slice(currentIndex)}
-        </span>
-      );
+      spans.push({
+        key: `after-${currentIndex}`,
+        style: baseStyle,
+        text: textSlice.slice(currentIndex),
+      });
     }
 
-    return <span key={startIndex}>{spans}</span>;
+    return spans;
   };
 
   return (
@@ -73,12 +72,18 @@ function File({ text, styles, matches, active, handleActive }) {
         if (styles[index + 1]) actualEndIndex = styles[index + 1]?.startIndex;
         const textSlice = text.slice(startIndex, actualEndIndex);
 
-        return getStyleWithHighlight(
+        const styleParts = getStyleWithHighlight(
           style,
           startIndex,
           actualEndIndex,
           textSlice
         );
+
+        return styleParts.map((part) => (
+          <span key={part.key} style={part.style}>
+            {part.text}
+          </span>
+        ));
       })}
     </div>
   );

@@ -4,6 +4,7 @@ import EditorArea from "./components/EditorArea";
 import DisplayArea from "./components/DisplayArea";
 import Topbar from "./components/Topbar";
 import "./App.css";
+import { saveData } from "./api";
 
 function App() {
   const [text, setText] = useState([""]);
@@ -33,7 +34,7 @@ function App() {
 
   const handleSaveAs = (key) => {
     const data = { text: text[activeFile], styles: styles[activeFile] };
-    localStorage.setItem(key, JSON.stringify(data));
+    saveData(key, data);
   };
 
   const closeFile = () => {
