@@ -3,7 +3,16 @@ import { useState } from "react";
 import Keyboard from "./Keyboard";
 import SpecialKeys from "./SpecialKeys";
 
-function EditorArea({ text, setText, styles, setStyles, setMatches }) {
+function EditorArea({
+  text,
+  setText,
+  styles,
+  setStyles,
+  setRoute,
+  user,
+  setUser,
+  setMatches,
+}) {
   const [lang, setLang] = useState("EN");
   const [editAll, setEditAll] = useState(true);
   const [styleStack, setStyleStack] = useState([]);
@@ -112,17 +121,24 @@ function EditorArea({ text, setText, styles, setStyles, setMatches }) {
   };
 
   const handleSaveAs = (key) => {
-    const data = { text, styles };
-    localStorage.setItem(key, JSON.stringify(data));
+    const storedData = JSON.parse(localStorage.getItem(user));
+    const userFiles = storedData ? storedData.userFiles : null;
+    const newFile = { text, styles };
+    userFiles.push({ key, newFile });
+    const userData = { ...storedData, userFiles };
+    localStorage.setItem(user, JSON.stringify(userData));
   };
 
   const handleOpen = (key) => {
-    const data = JSON.parse(localStorage.getItem(key));
-    if (data) {
-      setText(data.text);
-      setStyles(data.styles);
+    const storedData = JSON.parse(localStorage.getItem(user));
+    const userFiles = storedData ? storedData.userFiles : null;
+    const fileData = userFiles.find((file) => file.key === key);
+    if (fileData) {
+      const { text, styles } = fileData.newFile;
+      setText(text);
+      setStyles(styles);
     } else {
-      console.log("No data found for the given key.");
+      console.log("File not found for the given key.");
     }
   };
 
@@ -144,11 +160,21 @@ function EditorArea({ text, setText, styles, setStyles, setMatches }) {
         editAll={editAll}
         handleSearch={handleSearch}
         handleReplace={handleReplace}
-        handleSave={handleSaveAs}
+        handleSaveAs={handleSaveAs}
         handleOpen={handleOpen}
         handleUndoClick={handleUndoClick}
       />
       <Keyboard handleClick={handleClick} lang={lang} />
+      <button
+        className="logout-button"
+        onClick={() => {
+          setRoute("login");
+          setUser(null);
+          setText("");
+        }}
+      >
+        Log Out
+      </button>
     </div>
   );
 }

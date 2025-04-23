@@ -12,7 +12,7 @@ function SpecialKeys({
   editAll,
   handleSearch,
   handleReplace,
-  handleSave,
+  handleSaveAs,
   handleOpen,
   handleUndoClick,
 }) {
@@ -43,7 +43,6 @@ function SpecialKeys({
         >
           All
         </button>
-        {/* TODO: sync with current style with useState */}
         {FONT_ACTIONS.map(({ key, values }) => (
           <select
             key={key}
@@ -123,9 +122,8 @@ function SpecialKeys({
             className="absolute"
             onClick={() => {
               if (saveName) {
-                // Call handleSave with the save name
                 setSaveName("");
-                handleSave(saveName);
+                handleSaveAs(saveName);
               } else {
                 alert("Please provide a name to save.");
               }
