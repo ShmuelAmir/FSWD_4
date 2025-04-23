@@ -88,6 +88,7 @@ function SpecialKeys({
         <input
           type="text"
           placeholder="Search..."
+          value={search}
           onChange={(e) => {
             setSearch(e.target.value);
             handleSearch(e.target.value);
@@ -102,7 +103,11 @@ function SpecialKeys({
           />
           <button
             className="absolute"
-            onClick={() => handleReplace(search, replace)}
+            onClick={() => {
+              handleReplace(search, replace);
+              setReplace("");
+              setSearch("");
+            }}
           >
             OK
           </button>
@@ -135,7 +140,7 @@ function SpecialKeys({
         <div className="relative">
           <input
             type="text"
-            placeholder="Enter file name..."
+            placeholder="Open file..."
             value={openKey}
             onChange={(e) => setOpenKey(e.target.value)}
           />

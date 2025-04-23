@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import { saveData } from "../api";
 import DisplayArea from "../components/DisplayArea";
 import EditorArea from "../components/EditorArea";
 import Topbar from "../components/Topbar";
@@ -31,9 +30,13 @@ function EditorPage({ user, setUser }) {
     }
   };
 
-  const handleSaveAs = (key) => {
-    const data = { text: text[activeFile], styles: styles[activeFile] };
-    saveData(key, data);
+  const handleSaveAs = (key, text, styles) => {
+    const storedData = JSON.parse(localStorage.getItem(user));
+    const userFiles = storedData ? storedData.userFiles : null;
+    const newFile = { text, styles };
+    userFiles.push({ key, newFile });
+    const userData = { ...storedData, userFiles };
+    localStorage.setItem(user, JSON.stringify(userData));
   };
 
   const closeFile = () => {
@@ -42,7 +45,7 @@ function EditorPage({ user, setUser }) {
         const filename = prompt("do you want to save?\nEnter file name:");
         if (filename === null) return;
         if (filename !== "") {
-          handleSaveAs(filename);
+          handleSaveAs(filename, text[activeFile], styles[activeFile]);
         }
       }
       setText((p) => p.filter((_, i) => i !== activeFile));
@@ -75,6 +78,7 @@ function EditorPage({ user, setUser }) {
         styles={styles[activeFile]}
         setStyles={(updater) => setActiveState(setStyles, updater)}
         setMatches={(updater) => setActiveState(setMatches, updater)}
+        handleSaveAs={handleSaveAs}
       />
     </>
   );

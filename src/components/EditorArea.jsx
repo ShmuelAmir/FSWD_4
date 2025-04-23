@@ -12,6 +12,7 @@ function EditorArea({
   user,
   setUser,
   setMatches,
+  handleSaveAs,
 }) {
   const [lang, setLang] = useState("EN");
   const [editAll, setEditAll] = useState(true);
@@ -27,6 +28,12 @@ function EditorArea({
         break;
       case "Space":
         setText((prev) => prev + " ");
+        break;
+      case "Tab":
+      case "CapsLock":
+      case "Shift":
+      case "Ctrl":
+      case "Alt":
         break;
       default:
         setText((prev) => prev + key);
@@ -120,15 +127,6 @@ function EditorArea({
     setMatches([]);
   };
 
-  const handleSaveAs = (key) => {
-    const storedData = JSON.parse(localStorage.getItem(user));
-    const userFiles = storedData ? storedData.userFiles : null;
-    const newFile = { text, styles };
-    userFiles.push({ key, newFile });
-    const userData = { ...storedData, userFiles };
-    localStorage.setItem(user, JSON.stringify(userData));
-  };
-
   const handleOpen = (key) => {
     const storedData = JSON.parse(localStorage.getItem(user));
     const userFiles = storedData ? storedData.userFiles : null;
@@ -160,7 +158,7 @@ function EditorArea({
         editAll={editAll}
         handleSearch={handleSearch}
         handleReplace={handleReplace}
-        handleSaveAs={handleSaveAs}
+        handleSaveAs={(fileName) => handleSaveAs(fileName, text, styles)}
         handleOpen={handleOpen}
         handleUndoClick={handleUndoClick}
       />
